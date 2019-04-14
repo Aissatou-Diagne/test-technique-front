@@ -1,0 +1,38 @@
+<div class=" container">
+  <h3>Vous mettez un texte dans la zone de texte , On vous renvoie le nombre d'occurence </h3>
+
+  <form [formGroup]="searchForm" (ngSubmit)="returnCountWord()">
+
+    <div class="form-group">
+
+      <textarea formControlName="textArea" required class="form-control" id="exampleFormControlTextarea1" placeholder="mettez ici le texte"
+        rows="3"></textarea>
+
+    </div>
+
+    <button type="submit" [disabled]="searchForm.invalid" class="btn btn-primary">Submit</button>
+
+  </form>
+
+  <p></p>
+
+  <div *ngIf="isAffiche">
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">nombre </th>
+          <th scope="col">Occurence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let elt of array">
+          <td>{{elt.id}}</td>
+          <td>{{elt.occurence}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
