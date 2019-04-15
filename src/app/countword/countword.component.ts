@@ -17,7 +17,7 @@ export class CountwordComponent implements OnInit {
   array: any = [];
   arraytemp: any = [];
   isAffiche: boolean;
-  isbuttonDisable :boolean ; 
+  isbuttonDisable: boolean;
 
   constructor(private countwordsService: CountwordsService, private fb: FormBuilder) {
 
@@ -31,29 +31,37 @@ export class CountwordComponent implements OnInit {
     ]);
   }
 
-  ngOnInit() { 
-     
-  }
+  ngOnInit() {}
 
   returnCountWord() {
-   
+
     let textArea = this.searchForm.value.textArea;
 
-    this.countwordsService.countWord(textArea)
+    let regex = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi;
+    
+    let texteFormatedtemp = textArea.replace(regex, "");
+  
+    let texteFormated = texteFormatedtemp.trim();
+
+    this.countwordsService.countWord(texteFormated)
       .subscribe((data) => {
         this.arrayResultatAllMots = data;
+        
         for (let entry in this.arrayResultatAllMots) {
 
-          this.arraytemp["id"] = this.arrayResultatAllMots[entry];
-          this.arraytemp["occurence"] = entry;
-
-          this.array.push({ id: this.arraytemp["id"], occurence: this.arraytemp["occurence"] });
+          if ( entry != "") {
+            this.arraytemp["id"] = this.arrayResultatAllMots[entry];
+            this.arraytemp["occurence"] = entry;
+  
+            this.array.push({ id: this.arraytemp["id"], occurence: this.arraytemp["occurence"] });
+          }
+         
         }
 
         if (this.array.length > 0) {
-          this.isAffiche = true ; 
+          this.isAffiche = true;
         }
-       
+
         this.searchForm = this.fb.group({
           textArea: '',
         });
